@@ -1,4 +1,5 @@
 import psutil
+import paramiko
 from datetime import datetime
 from flask import Flask, jsonify
 from config import logger, VERSION
@@ -53,6 +54,28 @@ def health_check():
         # 添加其他健康检查项...
     }
     return jsonify(health_info)
+
+
+def ssh_command(ip, port, username, password, command):
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(ip, port, username, password)
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdin,stdout,stderr)
+    output = stdout.read() + stderr.read()
+    client.close()
+    return output
+
+
+@app.route('/run_ssh_command', methods=['GET'])
+def run_ssh_command():
+    ip = '10.8.0.8'
+    port = '8080'
+    username = 'cjl'
+    password = '123'
+    command = 'ls'
+    result = ssh_command(ip, port, username, password, command)
+    return jsonify({'output': result.decode('utf-8')})
 
 
 if __name__ == '__main__':
