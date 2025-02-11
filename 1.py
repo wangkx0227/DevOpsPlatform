@@ -1,7 +1,8 @@
 # server.py
 import asyncio
 import websockets
-import paramiko # https://docs.paramiko.org/en/stable/ 文档，实现ssh链接
+import paramiko  # https://docs.paramiko.org/en/stable/ 文档，实现ssh链接
+
 
 async def handle_connection(websocket, path):
     async for message in websocket:
@@ -31,12 +32,4 @@ async def handle_connection(websocket, path):
 # asyncio.get_event_loop().run_until_complete(start_server)
 # asyncio.get_event_loop().run_forever()
 
-
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('10.8.10.8', port=8000, username='cjl', password='123')
-stdin, stdout, stderr = ssh.exec_command("pwd")
-result = stdout.read() + stderr.read()
-print(result.decode())
-ssh.close()
 
