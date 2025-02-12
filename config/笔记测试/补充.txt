@@ -1,0 +1,5 @@
+JumpServer 实现前端可视化链接 SSH 并与后端进行可视化交互（类似于在网页中显示一个 Shell 解释框）主要依赖于其 Web Terminal 功能，以下是其实现原理和相关组件的作用
+
+
+flask-restful：
+https://flask-restful.readthedocs.io/en/latest/
