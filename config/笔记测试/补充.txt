@@ -3,3 +3,186 @@ JumpServer 实现前端可视化链接 SSH 并与后端进行可视化交互（�
 
 flask-restful：
 https://flask-restful.readthedocs.io/en/latest/
+flask文档：
+https://flask.palletsprojects.com/en/stable/deploying/
+
+
+
+在使用 Flask 框架开发大型应用时，合理的设计模式和模块划分是非常重要的，这有助于提高代码的可维护性、可扩展性和可读性。以下是一些常见的设计模式和模块化设计建议：
+1. 应用工厂模式（Application Factory）
+应用工厂模式是一种推荐的 Flask 应用设计方式，它通过一个工厂函数来创建 Flask 应用实例。这种方式可以方便地支持多实例和配置切换。
+实现步骤：
+创建工厂函数：
+在 app/__init__.py 中定义一个工厂函数 create_app，用于创建 Flask 应用实例。
+Python复制
+from flask import Flask
+
+def create_app(config_class=None):
+    app = Flask(__name__)
+    if config_class:
+        app.config.from_object(config_class)
+
+    # 初始化扩展
+    # 初始化路由
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    return app
+配置类：
+在 config.py 中定义不同的配置类。
+Python复制
+class Config:
+    SECRET_KEY = 'your_secret_key'
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DEBUG = False
+运行应用：
+在 wsgi.py 或 run.py 中创建应用实例。
+Python复制
+from app import create_app
+
+app = create_app(DevelopmentConfig)
+
+if __name__ == '__main__':
+    app.run()
+2. 模块化设计
+将应用划分为多个模块（通常是蓝图 Blueprints），每个模块负责一个特定的功能区域。
+示例：
+假设我们有一个博客应用，可以分为以下几个模块：
+auth：用户认证模块
+blog：博客文章模块
+admin：后台管理模块
+创建模块：
+在 app 文件夹下创建子文件夹 auth、blog 和 admin，每个子文件夹中包含一个 __init__.py 文件，定义蓝图。
+Python复制
+# app/auth/__init__.py
+from flask import Blueprint
+
+auth_bp = Blueprint('auth', __name__)
+
+from . import routes
+Python复制
+# app/blog/__init__.py
+from flask import Blueprint
+
+blog_bp = Blueprint('blog', __name__)
+
+from . import routes
+Python复制
+# app/admin/__init__.py
+from flask import Blueprint
+
+admin_bp = Blueprint('admin', __name__)
+
+from . import routes
+定义路由：
+在每个模块的 routes.py 文件中定义路由。
+Python复制
+# app/auth/routes.py
+from . import auth_bp
+
+@auth_bp.route('/login')
+def login():
+    return 'Login Page'
+Python复制
+# app/blog/routes.py
+from . import blog_bp
+
+@blog_bp.route('/')
+def index():
+    return 'Blog Index'
+注册蓝图：
+在工厂函数中注册蓝图。
+Python复制
+# app/__init__.py
+from flask import Flask
+from .auth import auth_bp
+from .blog import blog_bp
+from .admin import admin_bp
+
+def create_app(config_class=None):
+    app = Flask(__name__)
+    if config_class:
+        app.config.from_object(config_class)
+
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(blog_bp, url_prefix='/blog')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
+    return app
+3. 扩展初始化
+使用工厂函数时，扩展（如数据库、登录管理等）需要在工厂函数中初始化。
+示例：
+Python复制
+# app/__init__.py
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+
+def create_app(config_class=None):
+    app = Flask(__name__)
+    if config_class:
+        app.config.from_object(config_class)
+
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    from .auth import auth_bp
+    from .blog import blog_bp
+    from .admin import admin_bp
+
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(blog_bp, url_prefix='/blog')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
+    return app
+4. 配置管理
+使用配置类来管理不同的环境配置。
+示例：
+Python复制
+# config.py
+class Config:
+    SECRET_KEY = 'your_secret_key'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DEBUG = False
+5. 应用结构
+一个典型的 Flask 应用结构如下：
+复制
+project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── blog/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── admin/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── models.py
+│   └── templates/
+│
+├── config.py
+├── run.py
+└── wsgi.py
+6. 其他设计模式
+MVC（Model-View-Controller）：虽然 Flask 不强制使用 MVC，但可以通过模块化设计来实现类似的效果。
+Model：定义在 models.py 中，负责数据模型。
+View：定义在蓝图的 routes.py 中，负责处理请求和返回响应。
+Controller：可以通过服务层（Service Layer）来实现，将业务逻辑从视图中分离出来。
+依赖注入（Dependency Injection）：可以通过 Flask 的扩展（如 Flask-Injector）来实现依赖注入，提高代码的可测试性。
+通过以上设计模式和模块化设计，可以构建一个结构清晰、易于维护和扩展的 Flask 应用。
