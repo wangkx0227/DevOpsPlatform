@@ -4,7 +4,7 @@ JumpServer 实现前端可视化链接 SSH 并与后端进行可视化交互（�
 flask-restful：
 https://flask-restful.readthedocs.io/en/latest/
 flask文档：
-https://flask.palletsprojects.com/en/stable/deploying/
+https://flask.palletsprojects.com/zh-cn/stable/
 
 
 
