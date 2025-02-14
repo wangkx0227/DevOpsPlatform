@@ -1,7 +1,7 @@
 import psutil
 from datetime import datetime
 from flask import Flask, jsonify
-from settings import logger, VERSION
+from app.settings import logger, VERSION
 
 app = Flask(__file__)
 

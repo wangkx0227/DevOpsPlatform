@@ -7,7 +7,7 @@ LOG_NAME = 'devops'
 # 日志格式：日期 - 日志名称 - 等级 - 模块名（函数文件名称） - 函数名 - 信息
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(module)s.py - %(funcName)s  - %(message)s "
 # 日志路径
-LOG_BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LOG_DIR_PATH = os.path.join(LOG_BASE_PATH,'logs')
 
 
