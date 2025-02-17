@@ -1,7 +1,7 @@
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-from devops_app.settings import LOG_NAME, LOG_FORMAT, BASE_PATH
+from core.settings import LOG_NAME, LOG_FORMAT, BASE_PATH
 
 
 def create_logger():

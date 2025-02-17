@@ -1,8 +1,8 @@
 import os
 from flask import Flask
 
-from devops_app.settings import BASE_PATH
-from devops_app.blueprints import detection_bp
+from core.settings import BASE_PATH
+from core.blueprints import detection_bp
 
 
 def create_app(config_filename):

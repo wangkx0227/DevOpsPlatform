@@ -2,7 +2,7 @@ import uuid
 import json
 from datetime import datetime
 from flask import Response, request
-from devops_app.utilits import logger
+from core.utilits import logger
 from flask_restful import Resource
 
 

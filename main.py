@@ -1,5 +1,5 @@
-from devops_app import app
-from devops_app.settings import ApiResponse, HOST, POST
+from core import app
+from core.settings import ApiResponse, HOST, POST
 
 
 @app.route("/")

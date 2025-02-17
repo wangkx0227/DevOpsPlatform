@@ -2,8 +2,8 @@ import psutil
 from flask import current_app
 from datetime import datetime
 
-from devops_app.__version__ import __version__
-from devops_app.settings import ApiBase, ApiResponse
+from core.__version__ import __version__
+from core.settings import ApiBase, ApiResponse
 
 
 class DetectionApi(ApiBase):
