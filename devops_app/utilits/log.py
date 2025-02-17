@@ -1,25 +1,15 @@
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-
-# 日志格式
-LOG_NAME = 'devops'
-# 日志格式：日期 - 日志名称 - 等级 - 函数名 - 信息
-LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s  - %(message)s "
-# 日志路径
-LOG_BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-LOG_DIR_PATH = os.path.join(LOG_BASE_PATH,'logs')
+from devops_app.settings import LOG_NAME, LOG_FORMAT, BASE_PATH
 
 
 def create_logger():
     # 创建日志记录器
     logger = logging.getLogger(LOG_NAME)
     logger.setLevel(logging.INFO)
-
-    # 路径，保留5份日志，超过5M切割日志，验证创建文件。
-    if not os.path.exists(LOG_DIR_PATH):
-        os.mkdir(LOG_DIR_PATH)
-    log_path = os.path.join(LOG_DIR_PATH,'app.log')
+    log_dir_path = os.path.join(BASE_PATH, 'logs')
+    log_path = os.path.join(log_dir_path, 'app.log')
     file_handler = RotatingFileHandler(log_path, maxBytes=10000, backupCount=5)
     file_handler.setLevel(logging.INFO)
 

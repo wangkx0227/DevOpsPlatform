@@ -6,3 +6,7 @@ detection_bp = Blueprint('bp', __name__)  # 蓝图
 detection_api = Api(detection_bp)  # api
 
 from . import routes
+
+__all__ = [
+    "detection_bp"
+]
