@@ -1,5 +1,4 @@
 import paramiko  # https://docs.paramiko.org/en/stable/ 文档，实现ssh链接
-import logging
 
 # 配置日志
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

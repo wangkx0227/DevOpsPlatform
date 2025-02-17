@@ -1,6 +1,7 @@
-import os
 import logging
+import os
 from logging.handlers import TimedRotatingFileHandler
+
 from core.settings import LOG_NAME, LOG_FORMAT, BASE_PATH
 
 
@@ -8,6 +9,10 @@ def create_logger():
     # 创建日志记录器
     logger = logging.getLogger(LOG_NAME)
     logger.setLevel(logging.INFO)
+    # 日志 文件创建
+    logs_dir_path = os.path.join(BASE_PATH, "logs")
+    if not os.path.exists(logs_dir_path):
+        os.mkdir(logs_dir_path)
     log_dir_path = os.path.join(BASE_PATH, 'logs')
     log_path = os.path.join(log_dir_path, 'app.log')
     # 使用 TimedRotatingFileHandler 按天切割日志

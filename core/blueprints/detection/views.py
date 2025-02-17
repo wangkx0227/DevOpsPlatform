@@ -1,6 +1,7 @@
+from datetime import datetime
+
 import psutil
 from flask import current_app
-from datetime import datetime
 
 from core.__version__ import __version__
 from core.settings import ApiBase, ApiResponse

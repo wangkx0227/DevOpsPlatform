@@ -1,6 +1,4 @@
 # server.py
-import asyncio
-import websockets
 import paramiko  # https://docs.paramiko.org/en/stable/ 文档，实现ssh链接
 
 
@@ -26,10 +24,7 @@ async def handle_connection(websocket, path):
             except Exception as e:
                 await websocket.send(str(e))
 
-
 # start_server = websockets.serve(handle_connection, "localhost", 8765)
 # 
 # asyncio.get_event_loop().run_until_complete(start_server)
 # asyncio.get_event_loop().run_forever()
-
-
