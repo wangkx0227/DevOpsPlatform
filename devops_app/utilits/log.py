@@ -1,6 +1,6 @@
 import os
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 from devops_app.settings import LOG_NAME, LOG_FORMAT, BASE_PATH
 
 
@@ -10,7 +10,14 @@ def create_logger():
     logger.setLevel(logging.INFO)
     log_dir_path = os.path.join(BASE_PATH, 'logs')
     log_path = os.path.join(log_dir_path, 'app.log')
-    file_handler = RotatingFileHandler(log_path, maxBytes=10000, backupCount=5)
+    # 使用 TimedRotatingFileHandler 按天切割日志
+    file_handler = TimedRotatingFileHandler(
+        log_path,
+        when='midnight',  # 每天午夜切割日志
+        interval=1,  # 间隔单位（天）
+        backupCount=5,  # 保留 5 个备份文件
+        encoding='utf-8'  # 如果需要支持中文，可以指定编码
+    )
     file_handler.setLevel(logging.INFO)
 
     # 创建日志格式器并定义日志格式
