@@ -1,12 +1,13 @@
 import psutil
+from flask import current_app
 from datetime import datetime
-from flask import current_app 
 
 from __version__ import __version__
-from devops_app.settings import ApiBase,ApiResponse
+from devops_app.settings import ApiBase, ApiResponse
 
 
-def DetectionApi(ApiBase):
+class DetectionApi(ApiBase):
+    __doc__ = "检测项目是否正常"
 
     def get(self, *args, **kwargs):
         """
@@ -37,16 +38,14 @@ def DetectionApi(ApiBase):
             根据业务需求定义的任何其他关键性能指标（KPIs）
             :return:
         """
-    uptime = datetime.now() - current_app.config['START_TIME']
-    health_info = {
-        "status": "up",
-        "version": __version__,  # 版本
-        "uptime": uptime.days,  # 启动天数
-        "cpu_usage": psutil.cpu_percent(),
-        "memory_usage": psutil.virtual_memory().percent,
-        "database_status": "connected",  # 假设数据库连接正常
-        # 添加其他健康检查项...
-    }
-    return ApiResponse.success(data=health_info)
-
-
+        uptime = datetime.now() - current_app.config['START_TIME']
+        health_info = {
+            "status": "up",
+            "version": __version__,  # 版本
+            "uptime": str(uptime.days),  # 启动天数
+            "cpu_usage": psutil.cpu_percent(),
+            "memory_usage": psutil.virtual_memory().percent,
+            "database_status": "connected",  # 假设数据库连接正常
+            # 添加其他健康检查项...
+        }
+        return ApiResponse.success(data=health_info)

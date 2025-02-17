@@ -2,7 +2,6 @@ from flask import jsonify
 from devops_app.utilits import logger
 
 
-
 class ApiResponse:
     def __init__(self, data=None, status=200, message=""):
         self.data = data
