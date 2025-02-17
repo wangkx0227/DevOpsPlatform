@@ -1,7 +1,7 @@
 import uuid
 import json
 from datetime import datetime
-from flask import jsonify, Response
+from flask import Response, request
 from devops_app.utilits import logger
 from flask_restful import Resource
 
@@ -63,7 +63,8 @@ class ApiResponse:
         """
         成功响应，记录日志。
         """
-        logger.info(f"Response: status={status}, message={message}")
+        request_info = f"{request.method} - {status} - {request.path} - {request.url} - {request.remote_addr}"
+        logger.info(f"{message} - {request_info}")
         return ApiResponse(data=data, status=status, message=message).to_response()
 
     @staticmethod
@@ -71,5 +72,6 @@ class ApiResponse:
         """
         错误响应，记录日志。
         """
-        logger.error(f"Response: status={status}, message={message}")
+        request_info = f"{request.method} - {status} - {request.path} - {request.url} - {request.remote_addr}"
+        logger.error(f"{message} - {request_info}")
         return ApiResponse(data=data, status=status, message=message).to_response()
