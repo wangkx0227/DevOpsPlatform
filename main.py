@@ -10,7 +10,6 @@ def index():
 @app.route('/example', methods=['GET'])
 def example():
     # 成功响应
-    print()
     return ApiResponse.success(data={"key": "value"}, message="Request processed successfully")
 
 

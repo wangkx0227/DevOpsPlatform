@@ -2,7 +2,7 @@ import psutil
 from flask import current_app
 from datetime import datetime
 
-from __version__ import __version__
+from devops_app.__version__ import __version__
 from devops_app.settings import ApiBase, ApiResponse
 
 
