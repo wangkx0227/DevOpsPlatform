@@ -1,6 +1,7 @@
 import uuid
-from flask import jsonify
+import json
 from datetime import datetime
+from flask import jsonify, Response
 from devops_app.utilits import logger
 from flask_restful import Resource
 
@@ -54,7 +55,8 @@ class ApiResponse:
             "message": self.message,
             "data": self.data
         }
-        return jsonify(response_data), self.status
+        response = Response(json.dumps(response_data), mimetype='application/json', status=self.status)
+        return response
 
     @staticmethod
     def success(data=None, message="Success", status=200):
