@@ -1,5 +1,5 @@
 from devops_app import app
-from devops_app.settings import ApiResponse
+from devops_app.settings import ApiResponse, HOST, POST
 
 
 @app.route("/")
@@ -22,4 +22,4 @@ def error_example():
 
 if __name__ == '__main__':
     print(app.url_map)
-    app.run(host="0.0.0.0")
+    app.run(host=HOST, port=POST)
