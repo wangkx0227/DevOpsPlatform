@@ -2,7 +2,7 @@
 
 ## 1.`SSHClient`基本使用
 功能如下：
-仪表盘 用户管理 资产管理 应用管理 权限管理 作业中心 审计中心
+仪表盘 用户管理 资产管理 应用管理 权限管理 作业中心 审计中心 需要进行参考jumpserve来实现这些功能
 ```python
 import paramiko  # https://docs.paramiko.org/en/stable/ 文档，实现ssh链接
 
