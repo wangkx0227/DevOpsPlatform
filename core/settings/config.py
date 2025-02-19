@@ -1,9 +1,11 @@
-import uuid
 import json
+import uuid
 from datetime import datetime
+
 from flask import Response, request
-from core.utilits import logger
 from flask_restful import Resource
+
+from core.utilits import logger
 
 
 class BaseConfig:

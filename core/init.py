@@ -1,8 +1,9 @@
 import os
+
 from flask import Flask
 
-from core.settings import BASE_PATH
 from core.blueprints import detection_bp
+from core.settings import BASE_PATH
 
 
 def create_app(config_filename):
@@ -22,8 +23,4 @@ def create_app(config_filename):
     pictures_dir_path = os.path.join(static_dir_path, "pictures")
     if not os.path.exists(pictures_dir_path):
         os.mkdir(pictures_dir_path)
-    # 日志
-    logs_dir_path = os.path.join(BASE_PATH, "logs")
-    if not os.path.exists(logs_dir_path):
-        os.mkdir(logs_dir_path)
     return app
