@@ -1,9 +1,10 @@
 import os
-
 from flask import Flask
 
 from core.blueprints import detection_bp
-from core.settings import BASE_PATH
+
+# 项目路径
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def create_app(config_filename):

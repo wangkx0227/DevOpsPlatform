@@ -1,5 +1,6 @@
 from core import app
-from core.settings import ApiResponse, HOST, POST
+from core.utilits import send_email
+from core.settings import ApiResponse
 
 
 @app.route("/")
@@ -10,6 +11,7 @@ def index():
 @app.route('/example', methods=['GET'])
 def example():
     # 成功响应
+    send_email("我是标题", "it-19@1bizmail.com", "我是主题")
     return ApiResponse.success(data={"key": "value"}, message="Request processed successfully")
 
 
@@ -21,4 +23,4 @@ def error_example():
 
 if __name__ == '__main__':
     print(app.url_map)
-    app.run(host=HOST, port=POST)
+    app.run(host="127.0.0.1", port=8080)
